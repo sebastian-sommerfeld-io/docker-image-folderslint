@@ -1,0 +1,49 @@
+Docker image that ships with the link:https://github.com/denisraslov/folderslint[folderslint] npm module.
+
+image:{github-actions-url}/{job-generate-docs}/{badge}[Github Badge, link={github-actions-url}/{job-generate-docs}]
+image:{github-actions-url}/{job-ci}/{badge}[Github Badge, link={github-actions-url}/{job-ci}]
+image:{github-actions-url}/{job-release}/{badge}[Github Badge, link={github-actions-url}/{job-release}]
+
+* Github Repository -> {url-project}
+* Documentation -> https://www.sommerfeld.io/docs/docker-images/{project-name}-docs/main
+* Published Docker images -> https://hub.docker.com/r/sommerfeldio/{image-name}
+* Docker image tag scheme -> link:https://www.sommerfeld.io/docs/projects/infrastructure-docs/main/GUIDELINES/index.html#_version_tags[Guidelines and Conventions] on docs.cloud.sommerfeld.io
+* Where to file issues -> {url-project}/issues
+
+== What is `{image-name}`?
+The `{image-name}` image is a utility Docker image used in Github Actions workflows to validate the directory structure of a project. The image ships with link:https://www.npmjs.com/package/folderslint[folderslint].
+
+To see which packages are shipped with this image, take a look at the link:https://github.com/sebastian-sommerfeld-io/{project-name}/blob/main/src/main/Dockerfile[Dockerfile].
+
+== How to use this image
+=== Use without a `Dockerfile`
+To use the image without a `Dockerfile` run the following command. This create a `/tmp/antora` directory which contains all generated HTML, CSS, JS, etc.
+[source, sh]
+----
+docker run -it --rm --volume "$(pwd):$(pwd)" --workdir "$(pwd)" sommerfeldio/folderslint:latest folderslint
+----
+
+=== Use in a Github Actions workflow
+[source, yaml]
+----
+lint-folders:
+  runs-on: ubuntu-latest
+  needs: update-linter-rules
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Run folderslint in container
+      run: docker run -i --rm --volume "$(pwd):$(pwd)" --workdir "$(pwd)" sommerfeldio/folderslint:latest folderslint
+----
+
+== Risks and Technical Debts
+Scale for Probability and Impact: Low, Medium and High
+
+[cols="^1,2,5a,1,1,5a", options="header"]
+|===
+|# |Title |Description |Probability |Impact |Response
+|{counter:usage} |- |- |- |- |-
+|===
+
+== Contact
+Feel free to contact me via sebastian@sommerfeld.io or visit my website https://www.sommerfeld.io.

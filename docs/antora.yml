@@ -1,7 +1,7 @@
 ---
 name: docker-images-folderslint
 title: Docker Image folderslint
-version: main
+version: feat__pipeline-cleanup
 start_page: ROOT:index.adoc
 nav:
   - modules/ROOT/nav.adoc
